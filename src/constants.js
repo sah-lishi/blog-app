@@ -1,2 +1,11 @@
 const DATABASE_NAME = "blog_db"
-export default DATABASE_NAME
+const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax"
+    }
+    
+export  {
+    DATABASE_NAME,
+    options
+}
