@@ -7,7 +7,6 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-
 app.use("/api/users", authRouter)
 app.use("/api/blogs", blogRouter)
 
