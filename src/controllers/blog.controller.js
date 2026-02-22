@@ -31,10 +31,14 @@ const createBlog = asyncHandler(async (req, res) => {
 })
 const deleteBlog = asyncHandler(async (req, res) => {
     const {blog_id} = req.params
-    const blog = await Blog.findByIdAndDelete(blog_id)
+    const blog = await Blog.findById(blog_id)
     if(!blog)
         throw new ApiError(400, "No blog found")
 
+    if(blog.owner.toString() !== req.user._id.toString())
+        throw new ApiError(403, "Not allowed to delete this blog")
+
+    await blog.deleteOne()
     return res.status(200).json(new ApiResponse({}, "Blog deleted successfully"))
 })
 const getAllBlogs = asyncHandler(async (req, res) => {
@@ -42,8 +46,8 @@ const getAllBlogs = asyncHandler(async (req, res) => {
     //  find return an array of doc
     if(req.query.mine === "true"){
         blogs.ownerBlog = await Blog.find({owner: req.user._id})
-        if(!blogs.ownerBlog.length<=0)
-             return res.status(200).json(new ApiResponse({blogs}, "No blogs created")) 
+        if(!blogs.ownerBlog.length===0)
+            return res.status(200).json(new ApiResponse({blogs}, "No blogs created")) 
     } else {
         blogs.allBlogs = await Blog.find()
     }
@@ -53,7 +57,7 @@ const getBlogById = asyncHandler(async (req, res) => {
     const {blog_id} = req.params
     const blog = await Blog.findById(blog_id)
     if(!blog)
-        throw new ApiError(400, "No blog found")
+        throw new ApiError(404, "No blog found")
     return res.status(200).json(new ApiResponse(blog, "Blog fetched successfully"))
 })
 const updateBlog = asyncHandler(async (req, res) => {
