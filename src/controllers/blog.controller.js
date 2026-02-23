@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import Blog from "../models/blog.model.js"
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
@@ -44,16 +45,70 @@ const deleteBlog = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse({}, "Blog deleted successfully"))
 })
 const getAllBlogs = asyncHandler(async (req, res) => {
-    const blogs = {}
-    //  find return an array of doc
-    if(req.query.mine === "true"){
-        blogs.ownerBlog = await Blog.find({owner: req.user._id})
-        if(blogs.ownerBlog.length===0)
-            return res.status(200).json(new ApiResponse({blogs}, "No blogs created")) 
-    } else {
-        blogs.allBlogs = await Blog.find()
+    let {page=1, limit=10, search, sort} = req.query
+    
+    page = parseInt(page)
+    page = page > 1 ? page : 1
+    limit = parseInt(limit)
+    limit = (limit > 0 && limit < 15) ? limit : 15
+    let skip = (page - 1) * limit
+    
+    // match stages
+    let matchStage = {}
+    if(search){
+        matchStage.$or = [
+            {title: {$regex: search, $options: "i"}},
+            {content: {$regex: search, $options: "i"}}
+        ]
     }
-    return res.status(200).json(new ApiResponse({blogs}, "Blogs fetched successfully"))    
+    // search stages
+    let sortStage = {createdAt: -1}
+    if(sort) {
+        const allowedField = ["createdAt", "title", "content"]
+        const field = sort.startsWith("-") ? sort.slice(1) : sort
+        if(allowedField.includes(field)) {
+            const order = sort.startsWith("-") ? -1 : 1
+            sortStage = {[field]: order}
+        }
+    }
+    //  find return an array of doc
+
+    if(req.query.mine === "true")
+        matchStage.owner = new mongoose.Types.ObjectId(req.user._id)
+    
+    const blogs = await Blog.aggregate([
+                    {
+                        $match: matchStage
+                    },
+                    {
+                        $facet: {
+                            data: [
+                                {
+                                    $sort: sortStage
+                                },
+                                {
+                                    $skip: skip
+                                },
+                                {
+                                    $limit: limit
+                                }
+                            ],
+                            totalBlog: [
+                                {$count: "count"}
+                            ]
+                        }
+                        
+                    }
+                ])
+    
+    let totalBlogCount = blogs[0].totalBlog[0]?.count || 0
+
+    return res.status(200).json(new ApiResponse({
+        totalBlogCount, 
+        totalPages: Math.ceil(totalBlogCount/limit), 
+        currentPage: page, 
+        limit, 
+        blogs: blogs[0].data }, "Blogs fetched successfully"))    
 })
 const getBlogById = asyncHandler(async (req, res) => {
     const {blog_id} = req.params
