@@ -12,11 +12,8 @@ const blogSchema = new mongoose.Schema({
         trim: true
     },
     blogCoverImage: {
-        type: {
-                secure_url: {type: String, required: true},
-                public_id: {type: String, required: true},
-            },
-        required: true
+        secure_url: {type: String, required: true},
+        public_id: {type: String, required: true},
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
