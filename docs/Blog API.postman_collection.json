@@ -1,0 +1,395 @@
+{
+  "info": {
+    "_postman_id": "74c578d7-7aab-411d-8cea-64e39fecce43",
+    "name": "Blog API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "42559180"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"\",\r\n    \"lastname\": \"\",\r\n    \"username\": \"\",\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "current user info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/get-current-user",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "get-current-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh access-token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/refresh-accesstoken",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "refresh-accesstoken"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update password",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"oldPassword\": \"\", \r\n    \"newPassword\": \"\", \r\n    \"confirmPassword\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/update-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "update-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgot password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/forgot-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "reset password",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"newPassword\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users/reset-password/:resetToken",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "reset-password",
+                ":resetToken"
+              ],
+              "variable": [
+                {
+                  "key": "resetToken",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "item": [
+        {
+          "name": "create blog",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "a21d6a5c-fcba-4f67-bfb9-7678af3eee51"
+                },
+                {
+                  "key": "content",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "bc66fc5f-21c8-47d1-b513-1ed1a8b04581"
+                },
+                {
+                  "key": "blogCoverImage",
+                  "type": "file",
+                  "uuid": "f98d8160-f453-4fc5-9a08-2500a599525e",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/blogs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "blogs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get blog by Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/blogs/:blog_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "blogs",
+                ":blog_id"
+              ],
+              "variable": [
+                {
+                  "key": "blog_id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all blogs",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{base_url}}/api/blogs?mine=false",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "blogs",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "mine",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete blog",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/blogs/:blog_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "blogs",
+                ":blog_id"
+              ],
+              "variable": [
+                {
+                  "key": "blog_id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update blog",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "8845928b-51da-462d-85c6-34414bede81c"
+                },
+                {
+                  "key": "blogCoverImage",
+                  "type": "file",
+                  "uuid": "c3ea464c-6166-4b1d-a7e2-937816ebf45a",
+                  "value": null
+                },
+                {
+                  "key": "content",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "26fad4ef-4e48-40a7-b200-fd2c501f52c7"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/blogs/:blog_id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "blogs",
+                ":blog_id"
+              ],
+              "variable": [
+                {
+                  "key": "blog_id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
