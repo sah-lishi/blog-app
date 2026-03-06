@@ -1,7 +1,7 @@
 # Blog API - Backend REST Service
 A production-ready REST API for a blog application built using Node.js and Express. 
 
-The API supports user authentication, role-based authorization, blog CRUD operations, pagination, searching, sorting, image uploads, and rate limiting.
+The API supports user authentication, owner-based authorization, blog CRUD operations, pagination, searching, sorting, image uploads, and rate limiting.
 
 This project is deployed on Render and connected to MongoDB Atlas.
 
