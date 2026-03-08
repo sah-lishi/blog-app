@@ -73,9 +73,11 @@ const getAllBlogs = asyncHandler(async (req, res) => {
     }
     //  find return an array of doc
 
-    if(req.query.mine === "true")
-        matchStage.owner = req.user._id
-    
+    if(req.query.mine === "true"){
+        if(!req.user?._id)
+            throw new ApiError(401, "You are not logged in")
+        matchStage.owner = new mongoose.Types.ObjectId(req.user._id)
+    }
     const blogs = await Blog.aggregate([
                     {
                         $match: matchStage
