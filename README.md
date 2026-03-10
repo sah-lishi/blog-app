@@ -68,7 +68,7 @@ https://blog-app-71ay.onrender.com/api/blogs
 
 1. Clone the repository
 
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/sah-lishi/blog-app.git
 
 2. Install dependencies
 
