@@ -148,10 +148,12 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
 const resetPassword = asyncHandler(async(req, res) => {
     const {resetToken} = req.params
-    const {newPassword} = req.body
+    const {newPassword, confirmPassword} = req.body
 
-    if(!newPassword)
-        throw new ApiError(400, "New password is required")
+    if(!(newPassword && confirmPassword))
+        throw new ApiError(400, "All fields are required")
+    if(newPassword !== confirmPassword)
+        throw new ApiError(400,"Password mismatch")
 
     const hashToken = crypto.createHash("sha256").update(resetToken).digest("hex")
     console.log(hashToken);
@@ -160,7 +162,7 @@ const resetPassword = asyncHandler(async(req, res) => {
         resetPasswordToken: hashToken,
         resetPasswordExpiry: {$gt: Date.now()}
     })
-console.log(resetToken);
+// console.log(resetToken);
 
     if(!user)
         throw new ApiError(400, "Reset Password Token is invalid")

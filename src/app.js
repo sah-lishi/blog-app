@@ -8,6 +8,8 @@ import _config from "./config/index.js"
 import morgan from "morgan"
 import requestLogger from "./middlewares/requestLogger.middleware.js"
 import logger from "./utils/logger.js"
+import swaggerUi from "swagger-ui-express"
+import swaggerSpec from "./config/swagger.js"
 
 const app = express()
 app.set("trust proxy", 1)
@@ -26,7 +28,11 @@ app.use(rateLimit({
 }))
 app.use("/api/users", authRouter)
 app.use("/api/blogs", blogRouter)
-
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+        withCredentials: true
+    }
+}))
 // global error middleware
 app.use((err, req, res, next) => {
     logger.error({
